@@ -6,7 +6,7 @@
     background-color: #000; /* Black background color */
     color: #fff; /* White text color */
     padding: 20px; /* Add padding for spacing */
-    height: auto; /* Set height to auto for responsiveness */
+    height: 40px; /* Set height to auto for responsiveness */
     overflow: hidden; /* Hide overflow content */
   }
   

@@ -7,6 +7,7 @@ import { WhatsApp } from '@material-ui/icons';
 import "../styles/Footer.css"
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
   return <div className='footer'>
     <div className='socialMedia'>
           
@@ -31,7 +32,7 @@ function Footer() {
             </a>
 
     </div>
-    <h2>&copy; 2024 monyoro | All rights reserved</h2>
+    <h2>&copy; {currentYear} monyoro | All rights reserved</h2>
   </div>
 }
 

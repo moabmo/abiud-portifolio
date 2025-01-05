@@ -12,6 +12,18 @@ function Experience() {
 
         <VerticalTimelineElement 
             className='vertical-timeline-element--work' 
+            date = "2024 November" 
+            iconStyle={{ background: "#3e497a", color: "yellow"}} icon={<Work />} >
+                <h3 className='vertical-timeline-element--education'>
+                   Kenya Power and Lightning Company, Nairobi-Kenya
+                </h3>
+                <h4>System Developer</h4>
+                <p className='role'> 
+                <i>System development</i>
+                </p>
+            </VerticalTimelineElement>
+            <VerticalTimelineElement 
+            className='vertical-timeline-element--work' 
             date = "2023 June" 
             iconStyle={{ background: "#3e497a", color: "skyblue"}} icon={<Work />} >
                 <h3 className='vertical-timeline-element--education'>
@@ -50,7 +62,7 @@ function Experience() {
 
             <VerticalTimelineElement 
             className='vertical-timeline-element--work' 
-            date = "2023 Jan" 
+            date = "2023 Jan - 2024 Oct" 
             iconStyle={{ background: "green", color: "white"}} icon={<Work />} >
                 <h3 className='vertical-timeline-element--education'>
                     Kenya National Examinationations Council, Nairobi-Kenya
