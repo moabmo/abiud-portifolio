@@ -3,11 +3,12 @@
 .typewriter {
     text-align: center;
     font-family: Arial, sans-serif;
-    background-color: #000; /* Black background color */
-    color: #fff; /* White text color */
+    background-color: #000; 
+    color: #218FF7; /* White text color */
     padding: 20px; /* Add padding for spacing */
     height: 40px; /* Set height to auto for responsiveness */
     overflow: hidden; /* Hide overflow content */
+    color: #218FF7;
   }
   
   .typewriter-text {
@@ -19,6 +20,7 @@
     overflow: hidden;
     white-space: nowrap;
     margin: 0 auto;
+    color: #218FF7;
     font-size: 3vw; /* Use vw (viewport width) for font size */
   }
   
