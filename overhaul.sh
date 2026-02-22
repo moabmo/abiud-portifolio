@@ -1,3 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd /Users/monyoro/Projects/personal/psnl/abiud-portifolio
+
+BK=".backup_$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BK"
+cp -R src "$BK/src" 2>/dev/null || true
+cp -R public "$BK/public" 2>/dev/null || true
+echo "Backup saved to: $BK"
+
+rm -rf src public
+mkdir -p src public
+
+# ---- public ----
+cat > public/index.html <<'HTML'
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#070A12" />
+    <meta name="description" content="Abiud Monyoro Mongare — Enterprise Systems Analyst & Digital Transformation Lead." />
+    <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
+    <title>Monyoro — Portfolio</title>
+  </head>
+  <body>
+    <noscript>You need JavaScript enabled to run this site.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+HTML
+
+cat > public/favicon.svg <<'SVG'
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1F5CFF"/>
+      <stop offset="0.6" stop-color="#4B7BFF"/>
+      <stop offset="1" stop-color="#FFD100"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect x="18" y="18" width="220" height="220" rx="56" fill="#070A12"/>
+  <rect x="18" y="18" width="220" height="220" rx="56" fill="url(#g)" opacity="0.14"/>
+  <path filter="url(#glow)" d="M64 186V70h26l38 64 38-64h26v116h-26v-67l-30 49h-16l-30-49v67H64z" fill="url(#g)"/>
+  <rect x="18" y="18" width="220" height="220" rx="56" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+</svg>
+SVG
+
+# ---- src ----
+cat > src/index.js <<'JS'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./styles.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+JS
+
+cat > src/App.js <<'JS'
 import React, { useEffect, useMemo, useState } from "react";
 
 const LINKS = {
@@ -212,3 +284,246 @@ export default function App() {
     </div>
   );
 }
+JS
+
+cat > src/styles.css <<'CSS'
+:root{
+  --bg0:#070A12;
+  --bg1:#0B1020;
+  --panelA: rgba(255,255,255,0.10);
+  --panelB: rgba(255,255,255,0.06);
+  --stroke: rgba(255,255,255,0.14);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.70);
+  --blue: rgba(31,92,255,0.95);
+  --yellow: rgba(255,209,0,0.90);
+  --shadow1: 0 22px 80px rgba(0,0,0,0.42);
+  --shadow2: 0 14px 45px rgba(0,0,0,0.28);
+  --r: 22px;
+}
+
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 760px at 12% 10%, rgba(31,92,255,0.22), transparent 60%),
+    radial-gradient(950px 680px at 88% 12%, rgba(255,209,0,0.16), transparent 60%),
+    radial-gradient(900px 650px at 50% 100%, rgba(31,92,255,0.12), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg0));
+}
+
+a{ color: inherit; text-decoration: none; }
+button{ font: inherit; }
+::selection{ background: rgba(255,209,0,0.22); }
+
+.app{ min-height: 100vh; position: relative; }
+.bg{ position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.blob{ position: absolute; filter: blur(44px); opacity: .9; }
+.b1{ width: 520px; height: 520px; left: -140px; top: -170px; background: rgba(31,92,255,0.26); border-radius: 50%; }
+.b2{ width: 560px; height: 560px; right: -180px; top: -160px; background: rgba(255,209,0,0.18); border-radius: 50%; }
+.grid{
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 15%, black 0%, transparent 62%);
+  opacity: 0.12;
+}
+
+.nav{ position: sticky; top: 0; z-index: 50; padding: 18px 18px 0; }
+.navInner{
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(10,14,26,0.62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow2);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand{ display: inline-flex; align-items: center; gap: 10px; border: 0; background: transparent; color: var(--text); cursor: pointer; }
+.brandMark{
+  width: 34px; height: 34px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(31,92,255,0.95), rgba(255,209,0,0.85));
+  color: #070A12;
+  font-weight: 900;
+  box-shadow: 0 18px 40px rgba(31,92,255,0.18), 0 14px 34px rgba(255,209,0,0.10);
+}
+.brandText{ font-weight: 700; opacity: .92; }
+
+.navLinks{ display: flex; gap: 6px; margin-left: auto; }
+.navLink{
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,0.78);
+  cursor: pointer;
+}
+.navLink:hover{ background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.92); }
+.navLink.active{ background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); }
+
+.navCtas{ display: flex; align-items: center; gap: 10px; }
+.iconBtn{
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.86);
+}
+.iconBtn:hover{ background: rgba(255,255,255,0.09); transform: translateY(-1px); transition: 160ms ease; }
+
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.92);
+  cursor: pointer;
+}
+.btn:hover{ background: rgba(255,255,255,0.10); transform: translateY(-1px); transition: 160ms ease; }
+.btn.primary{
+  background: linear-gradient(135deg, var(--blue), var(--yellow));
+  color: #070A12;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 22px 55px rgba(31,92,255,0.18), 0 14px 40px rgba(255,209,0,0.12);
+}
+.btn.primary:hover{ transform: translateY(-2px) scale(1.01); }
+.btn.ghost{ background: rgba(255,255,255,0.08); }
+.btnIcon{ display: inline-flex; }
+
+.main{ position: relative; z-index: 1; padding: 26px 18px 60px; }
+
+.hero{
+  max-width: 1120px;
+  margin: 16px auto 26px;
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  gap: 18px;
+  padding: 22px;
+  border-radius: calc(var(--r) + 10px);
+  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(12,16,30,0.78), rgba(8,10,18,0.62));
+  box-shadow: var(--shadow1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.heroLeft{ padding: 10px 10px 6px; }
+.pill{
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.82);
+  font-size: 13px;
+}
+
+.h1{ margin: 14px 0 10px; font-size: clamp(44px, 5vw, 68px); letter-spacing: -0.03em; line-height: 1.04; }
+.grad{
+  background: linear-gradient(135deg, rgba(31,92,255,0.95), rgba(255,209,0,0.90));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lead{ margin: 0 0 14px; max-width: 62ch; color: rgba(255,255,255,0.74); line-height: 1.65; }
+
+.bullets{ margin: 0; padding-left: 18px; color: rgba(255,255,255,0.72); line-height: 1.7; }
+.bullets li{ margin: 6px 0; }
+
+.heroCtas{ display: flex; gap: 10px; margin-top: 16px; }
+.miniNote{ margin-top: 14px; font-size: 13px; color: rgba(255,255,255,0.60); }
+
+.card{
+  position: relative;
+  background: linear-gradient(180deg, var(--panelA), var(--panelB));
+  border: 1px solid var(--stroke);
+  border-radius: var(--r);
+  box-shadow: var(--shadow2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 18px;
+}
+
+.heroRight{ padding: 18px; overflow: hidden; }
+.profileTop{ display: flex; gap: 12px; align-items: center; }
+.avatar{
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(31,92,255,0.35), rgba(255,209,0,0.18));
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.92);
+  font-weight: 800;
+}
+.name{ font-weight: 800; }
+.role{ font-size: 13px; color: rgba(255,255,255,0.66); margin-top: 2px; }
+
+.kpis{ margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kpi{ padding: 12px; border-radius: 16px; background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.10); }
+.k{ font-size: 12px; color: rgba(255,255,255,0.62); }
+.v{ font-weight: 750; margin-top: 4px; }
+
+.chips{ margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip{ padding: 8px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.78); }
+
+.cardGlow{
+  position: absolute;
+  inset: -80px -120px auto auto;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(31,92,255,0.25), transparent 60%),
+              radial-gradient(circle at 70% 60%, rgba(255,209,0,0.18), transparent 60%);
+  filter: blur(26px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.section{ max-width: 1120px; margin: 0 auto; padding: 26px 0; }
+.sectionHead{ margin: 0 0 14px; }
+.eyebrow{ font-size: 13px; color: rgba(255,255,255,0.60); }
+.h2{ margin: 6px 0 0; font-size: 26px; letter-spacing: -0.02em; }
+.h3{ margin: 0 0 8px; font-size: 16px; letter-spacing: -0.01em; }
+.tags{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.tag{ padding: 7px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.78); }
+
+.grid2{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid3{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+.contactCard{ display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.contactRight{ display: flex; gap: 10px; flex-wrap: wrap; }
+
+.footer{ max-width: 1120px; margin: 10px auto 0; padding: 18px 0 0; color: rgba(255,255,255,0.62); }
+.footerInner{
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.linkBtn{ border: 0; background: transparent; color: rgba(255,255,255,0.74); cursor: pointer; }
+.linkBtn:hover{ color: rgba(255,255,255,0.92); }
+
+@media (max-width: 980px){
+  .hero{ grid-template-columns: 1fr; }
+  .navLinks{ display: none; }
+  .grid3{ grid-template-columns: 1fr; }
+  .grid2{ grid-template-columns: 1fr; }
+}
+CSS
+
+echo "Overhaul complete."

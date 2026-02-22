@@ -35,3 +35,19 @@
   color: rgba(234,240,255,0.75);
   line-height: 1.6;
 }
+
+
+/* ===== Competency cards premium ===== */
+.competencyCard, .skillCard, .techCard{
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06)) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  box-shadow: 0 14px 45px rgba(0,0,0,0.25) !important;
+}
+
+.competencyCard h3, .skillCard h3, .techCard h3{
+  color: rgba(255,255,255,0.90) !important;
+}
+
+.competencyCard p, .skillCard p, .techCard p{
+  color: rgba(255,255,255,0.70) !important;
+}
