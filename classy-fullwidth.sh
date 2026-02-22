@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ---------------- App.js ----------------
+cat > src/App.js <<'JS'
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const LINKS = {
@@ -34,12 +39,6 @@ function Icon({ name }) {
   );
   if (name === "spark") return (
     <svg {...common}><path d="M12 2l1.2 5.2L18 9l-4.8 1.8L12 16l-1.2-5.2L6 9l4.8-1.8L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/></svg>
-  );
-  if (name === "menu") return (
-    <svg {...common}><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-  );
-  if (name === "x") return (
-    <svg {...common}><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
   );
   return null;
 }
@@ -84,7 +83,7 @@ function Card({ className, children }) {
 
 function Section({ id, eyebrow, title, subtitle, children }) {
   return (
-    <section id={id} className="section reveal">
+    <section id={id} className="section">
       <div className="container">
         <div className="sectionHead">
           {eyebrow && <div className="eyebrow">{eyebrow}</div>}
@@ -117,15 +116,9 @@ function useActiveSection(ids) {
 export default function App() {
   const ids = useMemo(() => SECTIONS.map(s => s.id), []);
   const active = useActiveSection(ids);
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setMenuOpen(false);
-  };
-
-  // subtle cursor glow
+  // subtle cursor glow (no libs)
   const glowRef = useRef(null);
   useEffect(() => {
     const el = glowRef.current;
@@ -138,23 +131,6 @@ export default function App() {
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
-  }, []);
-
-  // lock scroll when menu is open
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
-
-  // reveal animations
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll(".reveal"));
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
-      { threshold: 0.12 }
-    );
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
   }, []);
 
   return (
@@ -185,50 +161,17 @@ export default function App() {
             </nav>
 
             <div className="navCtas">
-              <a className="iconBtn desktopOnly" href={LINKS.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="in" /></a>
-              <a className="iconBtn desktopOnly" href={LINKS.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="gh" /></a>
-              <a className="btn primary desktopOnly" href={LINKS.email}><Icon name="mail" /> <span>Email</span></a>
-
-              <button className="iconBtn mobileOnly" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-                <Icon name="menu" />
-              </button>
+              <a className="iconBtn" href={LINKS.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="in" /></a>
+              <a className="iconBtn" href={LINKS.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="gh" /></a>
+              <a className="btn primary" href={LINKS.email}><Icon name="mail" /> <span>Email</span></a>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile menu */}
-      <div className={cx("menuOverlay", menuOpen && "open")} onClick={() => setMenuOpen(false)} aria-hidden={!menuOpen}>
-        <div className={cx("menuSheet", menuOpen && "open")} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-          <div className="menuTop">
-            <div className="menuTitle">
-              <span className="brandMark sm">M</span>
-              <div>
-                <div className="menuName">Monyoro Mongare</div>
-                <div className="menuHint">Navigate & quick actions</div>
-              </div>
-            </div>
-            <button className="iconBtn" onClick={() => setMenuOpen(false)} aria-label="Close menu"><Icon name="x" /></button>
-          </div>
-
-          <div className="menuLinks">
-            {SECTIONS.map((s) => (
-              <button key={s.id} className={cx("menuLink", active === s.id && "active")} onClick={() => scrollTo(s.id)}>
-                {s.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="menuActions">
-            <a className="btn primary" href={LINKS.email}><Icon name="mail" /> Email</a>
-            <a className="btn ghost" href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-            <a className="btn ghost" href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
-          </div>
-        </div>
-      </div>
-
       <main className="main">
-        <section id="home" className="heroBleed reveal">
+        {/* FULL BLEED hero */}
+        <section id="home" className="heroBleed">
           <div className="heroSheen" aria-hidden="true" />
           <div className="container heroGrid">
             <div className="heroLeft">
@@ -406,7 +349,7 @@ export default function App() {
               <Card><h3 className="h3">Languages</h3><p>Oracle SQL, PL/SQL, Java, JavaScript, Python, Bash</p></Card>
               <Card><h3 className="h3">Backend & APIs</h3><p>REST APIs, Spring Boot, JWT/Auth, secure integrations, validation</p></Card>
               <Card><h3 className="h3">Delivery</h3><p>UAT facilitation, release planning, rollout strategy, stakeholder comms</p></Card>
-              <Card><h3 className="h3">Platforms</h3><p>Revenue platforms, smart metering, messaging, self-service channels</p></Card>
+              <Card><h3 className="h3">Platforms</h3><p>Revenue systems, smart metering platforms, messaging, self-service channels</p></Card>
               <Card><h3 className="h3">Ops</h3><p>Linux, Docker, Git, CI/CD support, monitoring and incident response</p></Card>
               <Card><h3 className="h3">Controls</h3><p>Change control, audit controls, leakage prevention, tamper-proof controls</p></Card>
             </div>
@@ -450,3 +393,432 @@ export default function App() {
     </div>
   );
 }
+JS
+
+# ---------------- styles.css ----------------
+cat > src/styles.css <<'CSS'
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root{
+  --bg0:#04060f;
+  --bg1:#061a3a;
+  --bg2:#0a2a5f;
+
+  --blue: rgba(64,140,255,0.98);
+  --blue2: rgba(42,106,255,0.92);
+  --cyan: rgba(0,220,255,0.70);
+  --orange: rgba(255,122,0,0.96);
+  --amber: rgba(255,196,0,0.72);
+  --magenta: rgba(255,64,180,0.42);
+
+  --panelA: rgba(255,255,255,0.10);
+  --panelB: rgba(255,255,255,0.06);
+  --stroke: rgba(255,255,255,0.16);
+
+  --text: rgba(255,255,255,0.93);
+  --muted: rgba(255,255,255,0.73);
+
+  --shadow1: 0 34px 105px rgba(0,0,0,0.56);
+  --shadow2: 0 18px 55px rgba(0,0,0,0.34);
+  --shadow3: 0 10px 26px rgba(0,0,0,0.24);
+  --r: 22px;
+
+  --container: minmax(16px, 1fr);
+  --content: min(1240px, 100% - 48px);
+  --ease: cubic-bezier(.2,.8,.2,1);
+}
+
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 760px at 10% 10%, rgba(64,140,255,0.24), transparent 60%),
+    radial-gradient(980px 740px at 92% 14%, rgba(255,122,0,0.20), transparent 62%),
+    radial-gradient(900px 700px at 55% 100%, rgba(0,220,255,0.12), transparent 60%),
+    radial-gradient(800px 520px at 65% 35%, rgba(255,64,180,0.10), transparent 55%),
+    linear-gradient(180deg, var(--bg2), var(--bg0));
+}
+
+a{ color: inherit; text-decoration: none; }
+button{ font: inherit; }
+::selection{ background: rgba(255,122,0,0.25); }
+
+.container{
+  display: grid;
+  grid-template-columns: var(--container) var(--content) var(--container);
+}
+.container > *{ grid-column: 2; }
+
+.app{ min-height: 100vh; position: relative; }
+
+/* Background */
+.bg{ position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.blob{ position: absolute; filter: blur(60px); opacity: .95; transform: translate3d(0,0,0); }
+.b1{ width: 700px; height: 700px; left: -260px; top: -280px; background: rgba(64,140,255,0.26); border-radius: 50%; }
+.b2{ width: 760px; height: 760px; right: -300px; top: -280px; background: rgba(255,122,0,0.22); border-radius: 50%; }
+.b3{ width: 520px; height: 520px; left: 38%; top: 58%; background: rgba(0,220,255,0.09); border-radius: 50%; }
+
+.grid{
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 76px 76px;
+  mask-image: radial-gradient(ellipse at 50% 15%, black 0%, transparent 64%);
+  opacity: 0.10;
+}
+.noise{
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06), transparent 50%),
+    radial-gradient(circle at 70% 40%, rgba(255,255,255,0.05), transparent 55%),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,0.04), transparent 60%);
+  opacity: .16;
+}
+
+/* Cursor glow (very subtle) */
+.cursorGlow{
+  position: absolute; inset: 0;
+  background: radial-gradient(700px 450px at var(--mx, 50%) var(--my, 30%),
+    rgba(255,122,0,0.12),
+    rgba(64,140,255,0.08),
+    transparent 60%);
+  opacity: .9;
+  filter: blur(2px);
+}
+
+/* Sticky nav */
+.main{ position: relative; z-index: 1; padding: 20px 0 70px; }
+.nav{ position: sticky; top: 0; z-index: 50; padding: 14px 0 0; }
+.navInner{
+  padding: 14px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(8,12,24,0.58);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow2);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transform: translateZ(0);
+}
+
+.brand{ display: inline-flex; align-items: center; gap: 10px; border: 0; background: transparent; color: var(--text); cursor: pointer; }
+.brandMark{
+  width: 34px; height: 34px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--blue), var(--orange));
+  color: #04060f;
+  font-weight: 950;
+  box-shadow: 0 22px 52px rgba(64,140,255,0.18), 0 18px 46px rgba(255,122,0,0.12);
+}
+.brandText{ font-weight: 800; letter-spacing: -0.02em; opacity: .98; }
+
+.navLinks{ display: flex; gap: 6px; margin-left: auto; }
+.navLink{
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,0.82);
+  cursor: pointer;
+  transition: background 170ms var(--ease), transform 170ms var(--ease), border-color 170ms var(--ease);
+}
+.navLink:hover{ background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); transform: translateY(-1px); }
+.navLink.active{ background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.18); }
+
+.navCtas{ display: flex; align-items: center; gap: 10px; }
+.iconBtn{
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.92);
+  transition: transform 170ms var(--ease), background 170ms var(--ease);
+}
+.iconBtn:hover{ background: rgba(255,255,255,0.11); transform: translateY(-1px); }
+
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.93);
+  cursor: pointer;
+  transition: transform 220ms var(--ease), background 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+.btn:hover{ background: rgba(255,255,255,0.11); transform: translateY(-1px); }
+.btn.primary{
+  background: linear-gradient(135deg, var(--blue), var(--orange));
+  color: #04060f;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 26px 70px rgba(64,140,255,0.18), 0 18px 48px rgba(255,122,0,0.14);
+}
+.btn.primary:hover{ transform: translateY(-2px) scale(1.01); }
+.btn.ghost{ background: rgba(255,255,255,0.08); }
+.btnIcon{ display: inline-flex; }
+
+/* FULL-BLEED hero */
+.heroBleed{
+  width: 100%;
+  margin-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background:
+    radial-gradient(1100px 640px at 12% 18%, rgba(64,140,255,0.18), transparent 60%),
+    radial-gradient(1000px 640px at 90% 12%, rgba(255,122,0,0.16), transparent 62%),
+    radial-gradient(900px 620px at 50% 92%, rgba(0,220,255,0.10), transparent 62%),
+    linear-gradient(180deg, rgba(10,16,40,0.70), rgba(5,8,18,0.48));
+  box-shadow: var(--shadow1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 600ms var(--ease) both;
+}
+.heroSheen{
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.10) 45%, transparent 55%);
+  transform: translateX(-40%);
+  animation: sweep 10.5s var(--ease) infinite;
+  opacity: 0.22;
+  filter: blur(2px);
+  pointer-events: none;
+}
+@keyframes sweep{
+  0%{ transform: translateX(-55%); }
+  50%{ transform: translateX(10%); }
+  100%{ transform: translateX(-55%); }
+}
+@keyframes fadeUp{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+.heroGrid{
+  padding: 34px 0 30px;
+  display: grid;
+  grid-template-columns: 1.22fr 0.78fr;
+  gap: 18px;
+}
+
+.pill{
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.88);
+  font-size: 13px;
+}
+
+.h1{
+  margin: 14px 0 10px;
+  font-size: clamp(50px, 5.3vw, 78px);
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+.grad{
+  background: linear-gradient(135deg, rgba(255,122,0,0.98), rgba(64,140,255,0.98));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.grad2{
+  background: linear-gradient(135deg, rgba(0,220,255,0.80), rgba(64,140,255,0.98), rgba(255,196,0,0.70));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lead{
+  margin: 0 0 14px;
+  max-width: 75ch;
+  color: rgba(255,255,255,0.80);
+  line-height: 1.72;
+}
+.bullets{
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(255,255,255,0.76);
+  line-height: 1.75;
+}
+.bullets li{ margin: 7px 0; }
+.heroCtas{ display: flex; gap: 10px; margin-top: 16px; }
+.miniNote{
+  margin-top: 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.66);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+/* Cards */
+.card{
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 22px;
+  box-shadow: var(--shadow2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 18px;
+  transition: transform 240ms var(--ease), box-shadow 240ms var(--ease), border-color 240ms var(--ease);
+  transform: translateZ(0);
+}
+.card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 30px 78px rgba(0,0,0,0.38);
+  border-color: rgba(255,255,255,0.22);
+}
+.card::after{
+  content:"";
+  position:absolute; inset:0;
+  border-radius: inherit;
+  pointer-events:none;
+  opacity: 0;
+  transition: opacity 240ms var(--ease);
+  background:
+    radial-gradient(900px 360px at 12% 10%, rgba(64,140,255,0.14), transparent 60%),
+    radial-gradient(900px 360px at 92% 10%, rgba(255,122,0,0.12), transparent 60%);
+}
+.card:hover::after{ opacity: 1; }
+
+.profileTop{ display: flex; gap: 12px; align-items: center; }
+.avatar{
+  width: 54px; height: 54px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(64,140,255,0.26), rgba(255,122,0,0.16));
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.94);
+  font-weight: 900;
+}
+.name{ font-weight: 850; letter-spacing: -0.02em; }
+.role{ font-size: 13px; color: rgba(255,255,255,0.72); margin-top: 2px; }
+
+.kpis{ margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kpi{ padding: 12px; border-radius: 16px; background: rgba(0,0,0,0.24); border: 1px solid rgba(255,255,255,0.10); box-shadow: var(--shadow3); }
+.k{ font-size: 12px; color: rgba(255,255,255,0.62); }
+.v{ font-weight: 850; margin-top: 4px; }
+
+.chips{ margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip{ padding: 8px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.82); }
+
+.microLine{
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.70);
+  font-size: 13px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+.pulseDot{
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  background: rgba(0,220,255,0.80);
+  box-shadow: 0 0 0 6px rgba(0,220,255,0.12);
+  animation: pulse 1.6s var(--ease) infinite;
+}
+@keyframes pulse{
+  0%{ transform: scale(1); opacity: .9; }
+  55%{ transform: scale(1.35); opacity: .65; }
+  100%{ transform: scale(1); opacity: .9; }
+}
+.microSpacer{ flex: 1; }
+.microBadge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.86);
+}
+
+.cardGlow{
+  position: absolute;
+  inset: -140px -160px auto auto;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(64,140,255,0.22), transparent 60%),
+    radial-gradient(circle at 70% 60%, rgba(255,122,0,0.18), transparent 60%),
+    radial-gradient(circle at 55% 35%, rgba(0,220,255,0.12), transparent 60%);
+  filter: blur(34px);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+/* Sections */
+.section{ width: 100%; padding: 34px 0; }
+.sectionHead{ margin-bottom: 14px; }
+.eyebrow{ font-size: 13px; color: rgba(255,255,255,0.62); }
+.h2{ margin: 6px 0 0; font-size: 26px; letter-spacing: -0.02em; }
+.subhead{ margin-top: 6px; color: rgba(255,255,255,0.68); font-size: 14px; line-height: 1.55; }
+
+.h3{ margin: 0 0 8px; font-size: 16px; letter-spacing: -0.01em; }
+p{ color: rgba(255,255,255,0.78); line-height: 1.65; margin: 0; }
+
+.grid2, .grid3{ display: grid; gap: 14px; }
+.grid2{ grid-template-columns: 1fr 1fr; }
+.grid3{ grid-template-columns: repeat(3, 1fr); }
+
+.cardTop{ display:flex; align-items:center; gap:10px; margin-bottom: 8px; }
+.pIcon{
+  width: 38px; height: 38px;
+  border-radius: 14px;
+  display:grid; place-items:center;
+  background: linear-gradient(135deg, rgba(64,140,255,0.18), rgba(255,122,0,0.12));
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+}
+
+.tags{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.tag{ padding: 7px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.82); }
+
+.subtleNote{ margin: 12px 0 0; color: rgba(255,255,255,0.62); font-size: 13px; }
+
+.feature .featTop{ display:flex; align-items:center; gap:10px; margin-bottom: 6px; }
+.featIcon{
+  width: 40px; height: 40px;
+  border-radius: 16px;
+  display:grid; place-items:center;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: radial-gradient(120% 120% at 20% 20%, rgba(64,140,255,0.18), rgba(255,122,0,0.10));
+  box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: rgba(255,255,255,0.86);
+}
+
+.miniList{ margin: 0; padding-left: 18px; color: rgba(255,255,255,0.74); line-height: 1.7; }
+.miniList li{ margin: 6px 0; }
+.miniList b{ color: rgba(255,255,255,0.92); }
+
+.contactCard{ display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.contactRight{ display: flex; gap: 10px; flex-wrap: wrap; }
+
+.footer{ margin: 12px 0 0; padding: 18px 0 0; color: rgba(255,255,255,0.64); }
+.footerInner{ border-top: 1px solid rgba(255,255,255,0.10); padding-top: 16px; display: flex; align-items: center; justify-content: space-between; }
+.linkBtn{ border: 0; background: transparent; color: rgba(255,255,255,0.74); cursor: pointer; }
+.linkBtn:hover{ color: rgba(255,255,255,0.92); }
+
+@media (max-width: 980px){
+  .heroGrid{ grid-template-columns: 1fr; }
+  .navLinks{ display: none; }
+  .grid3{ grid-template-columns: 1fr; }
+  .grid2{ grid-template-columns: 1fr; }
+}
+CSS
+
+echo "✅ Classy + full width + tech font + smoother animations applied."
