@@ -98,6 +98,7 @@ button{ font: inherit; }
   box-shadow: var(--shadow2);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 14px;
 }
 .brand{ display: inline-flex; align-items: center; gap: 10px; border: 0; background: transparent; color: var(--text); cursor: pointer; }
@@ -618,4 +619,10 @@ body{
 
   .card{ width: 100%; }
   .kpis{ grid-template-columns: 1fr; } /* stack KPI tiles */
+}
+
+
+/* === FORCE HAMBURGER TO FAR RIGHT === */
+.mobileOnly{
+  margin-left: auto;
 }
