@@ -517,3 +517,96 @@ body{
 .heroBleed, .section, main{
   width: 100%;
 }
+
+/* ===== PREMIUM BLUE–ORANGE SYSTEM ===== */
+
+:root{
+  --blueDeep: #0b2f73;
+  --bluePrimary: #2f7bff;
+  --blueElectric: #00c8ff;
+  --orangePrimary: #ff7a00;
+  --orangeSoft: #ffb347;
+
+  --gradHero: linear-gradient(
+    120deg,
+    var(--bluePrimary) 0%,
+    var(--blueElectric) 35%,
+    var(--orangePrimary) 85%
+  );
+
+  --gradAccent: linear-gradient(
+    120deg,
+    var(--bluePrimary),
+    var(--orangePrimary)
+  );
+
+  --cardBorder: rgba(47,123,255,0.35);
+}
+
+/* HERO NAME GRADIENT (Blue dominant) */
+.grad{
+  background: var(--gradHero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Secondary gradient */
+.grad2{
+  background: linear-gradient(
+    120deg,
+    var(--bluePrimary),
+    var(--blueElectric),
+    var(--orangeSoft)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* BUTTON PRIMARY */
+.btnPrimary{
+  background: linear-gradient(
+    120deg,
+    var(--bluePrimary),
+    var(--blueElectric)
+  );
+  box-shadow:
+    0 10px 30px rgba(47,123,255,0.35),
+    0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.btnPrimary:hover{
+  background: linear-gradient(
+    120deg,
+    var(--blueElectric),
+    var(--orangePrimary)
+  );
+  transform: translateY(-2px);
+}
+
+/* CARD BORDER GLOW */
+.card{
+  border: 1px solid var(--cardBorder);
+}
+
+.card:hover{
+  border-color: rgba(255,122,0,0.45);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.4),
+    0 0 30px rgba(47,123,255,0.25);
+}
+
+/* NAV HOVER */
+.nav a:hover{
+  color: var(--orangePrimary);
+}
+
+/* ICON GLOW */
+.iconGlow{
+  color: var(--bluePrimary);
+  transition: all 0.3s ease;
+}
+.iconGlow:hover{
+  color: var(--orangePrimary);
+  transform: translateY(-2px);
+}
+
