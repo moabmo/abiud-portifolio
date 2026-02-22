@@ -3,11 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.1.5",
-    "@testing-library/user-event": "^13.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.10.0",
@@ -41,5 +36,10 @@
   },
   "engines": {
     "node": ">=18 <21"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1"
   }
 }

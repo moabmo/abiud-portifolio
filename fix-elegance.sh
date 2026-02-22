@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ----- styles.css (colorful + elegant + full-width layout) -----
+cat > src/styles.css <<'CSS'
 :root{
   --bg0:#050814;
   --bg1:#071a3a;
@@ -305,3 +310,41 @@ button{ font: inherit; }
   .grid3{ grid-template-columns: 1fr; }
   .grid2{ grid-template-columns: 1fr; }
 }
+CSS
+
+# ----- App.js: ensure heroWrap + sheen exist without regex tricks -----
+# We rewrite the smallest section by replacing the home section wrapper manually.
+node - <<'NODE'
+const fs = require("fs");
+const p = "src/App.js";
+let s = fs.readFileSync(p, "utf8");
+
+// Ensure bg has noise already (ok if duplicated is avoided by existing code)
+s = s.replace(
+  /<div className="grid" \/>[\s\S]*?<div className="noise" \/>/m,
+  (m) => m
+);
+
+// Wrap hero section if not wrapped
+if (!s.includes('className="heroWrap"')) {
+  s = s.replace(
+    '<section id="home" className="hero">',
+    '<div className="heroWrap"><section id="home" className="hero"><div className="sheen" aria-hidden="true" />'
+  );
+  s = s.replace(
+    /<\/section>\s*\n\s*\n\s*<Section id="work"/m,
+    '</section></div>\n\n        <Section id="work"'
+  );
+}
+
+// Ensure sheen exists (in case wrap existed but sheen missing)
+s = s.replace(
+  '<div className="heroWrap"><section id="home" className="hero">',
+  '<div className="heroWrap"><section id="home" className="hero"><div className="sheen" aria-hidden="true" />'
+);
+
+fs.writeFileSync(p, s, "utf8");
+console.log("Updated App.js wrapper safely.");
+NODE
+
+echo "Styles + hero wrapper applied."

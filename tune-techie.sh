@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ---- Update App.js (generic wording, techie projects, svg icons) ----
+cat > src/App.js <<'JS'
 import React, { useEffect, useMemo, useState } from "react";
 
 const LINKS = {
@@ -139,7 +144,7 @@ export default function App() {
       </header>
 
       <main className="main">
-        <div className="heroWrap"><section id="home" className="hero"><div className="sheen" aria-hidden="true" /><div className="sheen" aria-hidden="true" />
+        <section id="home" className="hero">
           <div className="heroLeft">
             <div className="pill">Billing & Fintech • Revenue Systems • Integrations • Smart Metering</div>
 
@@ -197,7 +202,7 @@ export default function App() {
 
             <div className="cardGlow" aria-hidden="true" />
           </Card>
-        </section></div>
+        </section>
 
         <Section id="work" eyebrow="Selected work" title="Projects (high-level)">
           <div className="grid2">
@@ -295,3 +300,316 @@ export default function App() {
     </div>
   );
 }
+JS
+
+# ---- Update styles.css (orange + blue + deep blue, dev-touch fonts, techy feel) ----
+cat > src/styles.css <<'CSS'
+:root{
+  --bg0:#070A12;
+  --bg1:#071028;        /* deep blue */
+  --bg2:#0A1636;        /* deeper blue */
+  --panelA: rgba(255,255,255,0.10);
+  --panelB: rgba(255,255,255,0.06);
+  --stroke: rgba(255,255,255,0.14);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.70);
+
+  --blue: rgba(47,107,255,0.95);
+  --blue2: rgba(31,92,255,0.85);
+  --orange: rgba(255,122,0,0.95);
+  --orange2: rgba(255,170,64,0.70);
+
+  --shadow1: 0 22px 80px rgba(0,0,0,0.45);
+  --shadow2: 0 14px 45px rgba(0,0,0,0.30);
+  --r: 22px;
+}
+
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1100px 720px at 12% 10%, rgba(47,107,255,0.22), transparent 60%),
+    radial-gradient(1050px 720px at 90% 14%, rgba(255,122,0,0.16), transparent 62%),
+    radial-gradient(900px 650px at 55% 100%, rgba(31,92,255,0.12), transparent 60%),
+    linear-gradient(180deg, var(--bg2), var(--bg0));
+}
+
+a{ color: inherit; text-decoration: none; }
+button{ font: inherit; }
+::selection{ background: rgba(255,122,0,0.22); }
+
+.app{ min-height: 100vh; position: relative; }
+.bg{ position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.blob{ position: absolute; filter: blur(44px); opacity: .95; }
+.b1{ width: 520px; height: 520px; left: -140px; top: -170px; background: rgba(47,107,255,0.28); border-radius: 50%; }
+.b2{ width: 560px; height: 560px; right: -180px; top: -160px; background: rgba(255,122,0,0.20); border-radius: 50%; }
+.grid{
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 15%, black 0%, transparent 62%);
+  opacity: 0.12;
+}
+.noise{
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06), transparent 50%),
+    radial-gradient(circle at 70% 40%, rgba(255,255,255,0.05), transparent 55%),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,0.04), transparent 60%);
+  opacity: .18;
+}
+
+.nav{ position: sticky; top: 0; z-index: 50; padding: 18px 18px 0; }
+.navInner{
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(10,14,26,0.62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow2);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand{
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 0; background: transparent; color: var(--text);
+  cursor: pointer;
+}
+.brandMark{
+  width: 34px; height: 34px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--blue), var(--orange));
+  color: #070A12;
+  font-weight: 900;
+  box-shadow: 0 18px 40px rgba(47,107,255,0.18), 0 14px 34px rgba(255,122,0,0.10);
+}
+.brandText{
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  opacity: .95;
+}
+
+.navLinks{ display: flex; gap: 6px; margin-left: auto; }
+.navLink{
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255,255,255,0.78);
+  cursor: pointer;
+}
+.navLink:hover{
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+}
+.navLink.active{
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.92);
+}
+
+.navCtas{ display: flex; align-items: center; gap: 10px; }
+.iconBtn{
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.86);
+}
+.iconBtn:hover{ background: rgba(255,255,255,0.10); transform: translateY(-1px); transition: 160ms ease; }
+
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.92);
+  cursor: pointer;
+}
+.btn:hover{ background: rgba(255,255,255,0.10); transform: translateY(-1px); transition: 160ms ease; }
+.btn.primary{
+  background: linear-gradient(135deg, var(--blue), var(--orange));
+  color: #070A12;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 22px 55px rgba(47,107,255,0.18), 0 14px 40px rgba(255,122,0,0.12);
+}
+.btn.primary:hover{ transform: translateY(-2px) scale(1.01); }
+.btn.ghost{ background: rgba(255,255,255,0.08); }
+.btnIcon{ display: inline-flex; }
+
+.main{ position: relative; z-index: 1; padding: 26px 18px 60px; }
+
+.hero{
+  max-width: 1120px;
+  margin: 16px auto 26px;
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  gap: 18px;
+  padding: 22px;
+  border-radius: calc(var(--r) + 10px);
+  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(10,16,40,0.76), rgba(7,10,18,0.62));
+  box-shadow: var(--shadow1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.heroLeft{ padding: 10px 10px 6px; }
+.pill{
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.82);
+  font-size: 13px;
+}
+
+.h1{
+  margin: 14px 0 10px;
+  font-size: clamp(44px, 5vw, 68px);
+  letter-spacing: -0.04em;
+  line-height: 1.03;
+}
+.grad{
+  background: linear-gradient(135deg, rgba(255,122,0,0.95), rgba(47,107,255,0.95));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lead{
+  margin: 0 0 14px;
+  max-width: 66ch;
+  color: rgba(255,255,255,0.74);
+  line-height: 1.65;
+}
+
+.bullets{
+  margin: 0;
+  padding-left: 18px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.7;
+}
+.bullets li{ margin: 6px 0; }
+
+.heroCtas{ display: flex; gap: 10px; margin-top: 16px; }
+.miniNote{ margin-top: 14px; font-size: 13px; color: rgba(255,255,255,0.60); }
+
+.card{
+  position: relative;
+  background: linear-gradient(180deg, var(--panelA), var(--panelB));
+  border: 1px solid var(--stroke);
+  border-radius: var(--r);
+  box-shadow: var(--shadow2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 18px;
+}
+.card:hover{ transform: translateY(-2px); transition: 160ms ease; }
+
+.cardTop{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom: 8px;
+}
+.pIcon{
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  background: linear-gradient(135deg, rgba(47,107,255,0.18), rgba(255,122,0,0.12));
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+}
+
+.heroRight{ padding: 18px; overflow: hidden; }
+.profileTop{ display: flex; gap: 12px; align-items: center; }
+.avatar{
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(47,107,255,0.30), rgba(255,122,0,0.16));
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.92);
+  font-weight: 800;
+}
+.name{ font-weight: 900; letter-spacing: -0.01em; }
+.role{ font-size: 13px; color: rgba(255,255,255,0.66); margin-top: 2px; }
+
+.kpis{ margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kpi{ padding: 12px; border-radius: 16px; background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.10); }
+.k{ font-size: 12px; color: rgba(255,255,255,0.62); }
+.v{ font-weight: 800; margin-top: 4px; }
+
+.chips{ margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip{ padding: 8px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.78); }
+
+.cardGlow{
+  position: absolute;
+  inset: -80px -120px auto auto;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(47,107,255,0.26), transparent 60%),
+              radial-gradient(circle at 70% 60%, rgba(255,122,0,0.18), transparent 60%);
+  filter: blur(28px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.section{ max-width: 1120px; margin: 0 auto; padding: 26px 0; }
+.sectionHead{ margin: 0 0 14px; }
+.eyebrow{ font-size: 13px; color: rgba(255,255,255,0.60); }
+.h2{ margin: 6px 0 0; font-size: 26px; letter-spacing: -0.02em; }
+
+.h3{ margin: 0 0 8px; font-size: 16px; letter-spacing: -0.01em; }
+.tags{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.tag{ padding: 7px 10px; border-radius: 999px; font-size: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.78); }
+
+.grid2{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid3{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+.subtleNote{
+  margin-top: 12px;
+  color: rgba(255,255,255,0.58);
+  font-size: 13px;
+}
+
+.contactCard{ display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.contactRight{ display: flex; gap: 10px; flex-wrap: wrap; }
+
+.footer{ max-width: 1120px; margin: 10px auto 0; padding: 18px 0 0; color: rgba(255,255,255,0.62); }
+.footerInner{
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.linkBtn{ border: 0; background: transparent; color: rgba(255,255,255,0.74); cursor: pointer; }
+.linkBtn:hover{ color: rgba(255,255,255,0.92); }
+
+@media (max-width: 980px){
+  .hero{ grid-template-columns: 1fr; }
+  .navLinks{ display: none; }
+  .grid3{ grid-template-columns: 1fr; }
+  .grid2{ grid-template-columns: 1fr; }
+}
+CSS
+
+echo "Techie palette + generic copy + project SVG icons applied."
