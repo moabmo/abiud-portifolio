@@ -1,65 +1,65 @@
-.blog-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding-top: 6%;
+.articles{
+  width:min(1120px, calc(100% - 24px));
+  margin: 18px auto 0;
+  padding: 22px 18px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 14px 38px rgba(0,0,0,0.32);
 }
 
-.blog-container h1 {
-  text-align: center;
+.articlesHeader h1{ margin: 0; }
+.articlesHeader p{ margin: 8px 0 0; color: rgba(234,240,255,0.70); line-height: 1.6; }
+
+.articleGrid{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-.blog-container hr {
-  margin: 20px 0;
-  border: none;
-  border-top: 1px solid #ccc;
+.articleCard{
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(7,10,18,0.55);
+  border:1px solid rgba(255,255,255,0.10);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.article-section {
-  margin-bottom: 20px;
+.articleCard:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 6px rgba(31,92,255,0.10), 0 28px 60px rgba(0,0,0,0.40);
 }
 
-.article-section article {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 20px;
+.articleCard h2{ margin: 10px 0 8px; font-size: 16px; }
+.articleCard p{ margin: 0; color: rgba(234,240,255,0.72); line-height: 1.6; }
+
+.badge{
+  display:inline-flex;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255,209,0,0.12);
+  border:1px solid rgba(255,209,0,0.18);
+  color: rgba(255,209,0,0.90);
+  font-size: 12px;
+  font-weight: 800;
 }
 
-.article-section h2 {
-  margin-top: 0;
-  color: #031263;
+.articleFooter{ margin-top: 14px; display:flex; justify-content:flex-start; }
+
+.pill{
+  display:inline-flex;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.10);
+  color: rgba(234,240,255,0.76);
+  font-size: 13px;
 }
 
-.article-section p {
-  margin-bottom: 10px;
-}
+.articlesNote{ margin-top: 14px; color: rgba(234,240,255,0.62); font-size: 13px; }
 
-.article-section button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-
-.article-section button:hover {
-  background-color: #0056b3;
-}
-
-.related-blogs ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.related-blogs li {
-  margin-bottom: 10px;
-}
-
-.related-blogs a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-.related-blogs a:hover {
-  text-decoration: underline;
+@media (max-width: 960px){
+  .articleGrid{ grid-template-columns: 1fr; }
 }

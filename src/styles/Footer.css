@@ -1,50 +1,51 @@
-/* Keep your existing CSS rules */
-
-.footer {
-  width: 100%;
-  height: 100px;
-  background: rgb(33, 143, 247);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
+.footer{
+  margin: 26px auto 22px;
+  width:min(1120px, calc(100% - 24px));
+  border-radius: 22px;
+  background: rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 38px rgba(0,0,0,0.35);
+  overflow:hidden;
 }
 
-.socialMedia svg {
-  color: rgb(3, 18, 99);
-  margin: 20px;
-  margin-bottom: 0px;
-  font-size: 300%;
-  cursor: pointer;
+.footerInner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding: 18px 18px;
 }
 
-/* Hover style */
-.socialMedia svg:hover {
-  color: yellow;
+.footerName{ font-weight:800; letter-spacing:0.2px; }
+.footerTag{ color: rgba(234,240,255,0.70); font-size: 13px; margin-top: 4px; }
+
+.footerRight{ display:flex; gap:10px; }
+
+.iconBtn{
+  width:44px;
+  height:44px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.10);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
-.footer h2 {
-  /* font-family: "Courier New", monospace; */
-  color: white;
-  font-weight: bolder;
+.iconBtn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 6px rgba(31,92,255,0.10), 0 20px 45px rgba(0,0,0,0.35);
 }
 
-/* Media Query for smaller screens */
-@media only screen and (max-width: 600px) {
-  .footer {
-    height: auto; /* Allow height to adjust based on content */
-  }
+.footerBottom{
+  padding: 12px 18px 16px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  color: rgba(234,240,255,0.62);
+  font-size: 12px;
+}
 
-  .footer p {
-    font-size: 16px; /* Adjust font size for smaller screens */
-  }
-
-  .socialMedia svg {
-    font-size: 40px; /* Adjust social media icon size */
-    margin: 10px; /* Reduce margin for smaller screens */
-  }
+@media (max-width: 760px){
+  .footerInner{ flex-direction:column; align-items:flex-start; }
 }

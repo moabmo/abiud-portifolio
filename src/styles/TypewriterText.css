@@ -1,44 +1,33 @@
-/* TypewriterText.css */
+.typewriter{
+  margin-top: 12px;
+}
 
-.typewriter {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    background-color: #000; 
-    color: #218FF7; /* White text color */
-    padding: 20px; /* Add padding for spacing */
-    height: 40px; /* Set height to auto for responsiveness */
-    overflow: hidden; /* Hide overflow content */
-    color: #218FF7;
-  }
-  
-  .typewriter-text {
-    display: inline-block; /* Display the text and cursor on the same line */
-    position: relative; /* Position for the cursor */
-  }
-  
-  .typewriter h2 {
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 0 auto;
-    color: #218FF7;
-    font-size: 3vw; /* Use vw (viewport width) for font size */
-  }
-  
-  .cursor {
-    display: inline-block;
-    width: 0.08vw; /* Use vw for cursor width */
-    height: 3vw; /* Use vw for cursor height */
-    margin-left: 1vw; /* Use vw for margin */
-    background-color: white; /* White cursor color */
-    animation: blink 1s infinite;
-    position: absolute;
-    top: 0; /* Align cursor with the text */
-    right: 0; /* Move cursor to the right (end of the text) */
-  }
-  
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-  
+.typewriter-text{
+  margin: 10px 0 0;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.05;
+  font-weight: 950;
+  letter-spacing: -0.6px;
+  background: linear-gradient(135deg, rgba(234,240,255,0.95), rgba(31,92,255,0.95), rgba(255,209,0,0.92));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 24px rgba(31,92,255,0.18);
+}
+
+.cursor{
+  display:inline-block;
+  width: 10px;
+  height: 1.1em;
+  margin-left: 6px;
+  border-radius: 2px;
+  background: rgba(255,209,0,0.9);
+  box-shadow: 0 0 16px rgba(255,209,0,0.30);
+  animation: blink 0.9s infinite;
+  transform: translateY(3px);
+}
+
+@keyframes blink{
+  0%,49%{ opacity:1; }
+  50%,100%{ opacity:0; }
+}

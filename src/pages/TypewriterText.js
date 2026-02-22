@@ -1,50 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/TypewriterText.css'; // Import your CSS file for styling
+import React, { useEffect, useMemo, useState } from 'react';
+import '../styles/TypewriterText.css';
 
 function TypewriterText() {
-  const [displayText, setDisplayText] = useState('');
+  const phrases = useMemo(
+    () => [
+      'Abiud Monyoro Mongare',
+      'Enterprise Systems Analyst',
+      'Digital Transformation Lead',
+      'Billing & Fintech • Revenue Systems',
+      'Smart Metering • AMI • Field Workflows',
+    ],
+    []
+  );
 
-  const textToType = "Hello This is Monyoro...";
-  const typingSpeed = 200; // Adjust typing speed (milliseconds)
-  const eraseSpeed = 50;   // Adjust erasing speed (milliseconds)
+  const [text, setText] = useState('');
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    let currentIndex = 0;
+    const current = phrases[phraseIndex % phrases.length];
 
-    const typeText = () => {
-      if (currentIndex < textToType.length) {
-        setDisplayText(textToType.substring(0, currentIndex + 1));
-        currentIndex++;
-        setTimeout(typeText, typingSpeed);
-      } else {
-        // Text is fully typed, start erasing
-        setTimeout(eraseText, 1000); // Wait for a pause
+    const speed = isDeleting ? 30 : 55;
+    const pause = 900;
+
+    const tick = () => {
+      const next = isDeleting
+        ? current.substring(0, text.length - 1)
+        : current.substring(0, text.length + 1);
+
+      setText(next);
+
+      // when full word typed
+      if (!isDeleting && next === current) {
+        setTimeout(() => setIsDeleting(true), pause);
+        return;
       }
+
+      // when deleted
+      if (isDeleting && next === '') {
+        setIsDeleting(false);
+        setPhraseIndex((p) => (p + 1) % phrases.length);
+        return;
+      }
+
+      setTimeout(tick, speed);
     };
 
-    const eraseText = () => {
-      if (currentIndex >= 0) {
-        setDisplayText(textToType.substring(0, currentIndex));
-        currentIndex--;
-        setTimeout(eraseText, eraseSpeed);
-      } else {
-        // Text is fully erased, start typing again
-        setTimeout(typeText, 1000); // Wait for a pause
-      }
-    };
-
-    typeText(); // Start typing when component mounts
-
-    // Cleanup the timer on unmount (optional)
-    return () => clearTimeout();
-  }, []);
+    const t = setTimeout(tick, speed);
+    return () => clearTimeout(t);
+  }, [phrases, phraseIndex, isDeleting, text]);
 
   return (
     <div className="typewriter">
-      <div className="typewriter-text">
-        <h2>{displayText}</h2>
-        <div className="cursor"></div>
-      </div>
+      <h1 className="typewriter-text">
+        {text}
+        <span className="cursor" aria-hidden="true" />
+      </h1>
     </div>
   );
 }

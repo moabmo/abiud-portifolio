@@ -1,39 +1,46 @@
 import React from 'react';
-import { Instagram } from '@material-ui/icons';
-import { Twitter } from '@material-ui/icons';
-import { Facebook } from '@material-ui/icons'; 
-import { LinkedIn } from '@material-ui/icons';
-import { WhatsApp } from '@material-ui/icons';
-import "../styles/Footer.css"
+import { LinkedIn, Email, GitHub } from '@material-ui/icons';
+import '../styles/Footer.css';
 
 function Footer() {
-  const currentYear = new Date().getFullYear();
-  return <div className='footer'>
-    <div className='socialMedia'>
-          
-            <a href='https://www.linkedin.com/in/monyoro-mong-are-59430b17a/' target='blank'>
-              <LinkedIn />
-            </a>
+  const year = new Date().getFullYear();
 
-            <a href='https://twitter.com/monyoromongare' target='blank'>
-              <Twitter />
-            </a>
+  return (
+    <footer className="footer">
+      <div className="footerInner">
+        <div className="footerLeft">
+          <div className="footerName">Abiud Monyoro Mongare</div>
+          <div className="footerTag">Enterprise Systems • Billing & Fintech • Smart Metering</div>
+        </div>
 
-            <a href='https://www.linkedin.com/in/abiud-m-59430b17a/' target='blank'>
-              <Instagram />
-            </a>
+        <div className="footerRight">
+          <a
+            className="iconBtn"
+            href="https://www.linkedin.com/in/abiud-m-59430b17a/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+          >
+            <LinkedIn />
+          </a>
+          <a className="iconBtn" href="mailto:monyoro@proton.me" aria-label="Email">
+            <Email />
+          </a>
+          <a
+            className="iconBtn"
+            href="https://github.com/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+          >
+            <GitHub />
+          </a>
+        </div>
+      </div>
 
-            <a href='https://www.facebook.com/abiud.monyoro' target='blank'>
-              <Facebook />
-            </a>
-
-            <a href="https://wa.me/+254719356271" target='blank'>
-              <WhatsApp />
-            </a>
-
-    </div>
-    <h2>&copy; {currentYear} monyoro | All rights reserved</h2>
-  </div>
+      <div className="footerBottom">© {year} Monyoro. Built with React.</div>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;

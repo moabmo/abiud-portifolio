@@ -1,89 +1,186 @@
-import React from 'react'
-import { LinkedIn } from '@material-ui/icons'
-import { Email } from '@material-ui/icons'
-import { GitHub } from '@material-ui/icons'
-import "../styles/Home.css"
+import React from 'react';
+import { LinkedIn, Email, GitHub, ArrowForward } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
+import '../styles/Home.css';
 import TypewriterText from './TypewriterText';
 
-
-
 function Home() {
-  return( <div className='home'>
-    <div className='about'>
-    
-        <div className='prompt'>
-        <div className="App">
-      <TypewriterText />
-    </div>
-            <p>
-        As an eager and motivated software developer, I am excited to bring my technical skills and passion for problem-solving to a dynamic team. 
-        With a solid foundation in computer science, programming languages, and software development methodologies, 
-        I am confident in my ability to contribute to the design, development, and maintenance of software applications. 
-        My hands-on experience in various projects and internships has honed my ability to work collaboratively, 
-        manage time effectively, and deliver high-quality results. I am always eager to learn, grow, 
-        and expand my skill set, and I am dedicated to staying up-to-date with the latest technologies and trends in the industry.
+  return (
+    <div className="home">
+      <section className="hero">
+        <div className="heroGlow" aria-hidden="true" />
 
+        <div className="heroInner">
+          <div className="heroLeft">
+            <div className="kicker">Billing & Fintech • Revenue Systems • Smart Metering</div>
+            <TypewriterText />
+
+            <p className="heroLead">
+              I build and run <b>revenue‑critical systems</b>—from core billing and smart metering to
+              customer self‑service channels and real‑time communication—within high‑availability
+              enterprise environments.
             </p>
-            <center>
-                <a href='https://www.linkedin.com/in/abiud-m-59430b17a/' target='blank'>
-                <LinkedIn />
-                </a>
 
-                <a href='https://www.linkedin.com/in/abiud-m-59430b17a/' target='blank'>
-                <Email />
-                </a>
+            <ul className="heroBullets">
+              <li>Project Manager + Acting Tech Lead for Self‑Service transformation</li>
+              <li>Release management for Google Play & Apple App Store</li>
+              <li>Oracle SQL/PL/SQL remediation for production incidents & data integrity</li>
+              <li>Real‑time SMS gateway architecture (Kannel nodes) for transactional messaging</li>
+              <li>CAB member: change governance, risk assessment, and deployment readiness</li>
+            </ul>
 
-                <a href='https://www.linkedin.com/in/abiud-m-59430b17a/' target='blank'>
-                <GitHub />
-                </a>
-            </center>
-            
-            
-        </div>
-    </div>
-    <div className='skills'>   
-        <h1>Skills</h1>
-            <div className='list'>
-            <li className='item'>
-                <h2>Front-End</h2>
-                <span>Building stunning user interfaces with HTML, CSS, and JavaScript. Crafting dynamic experiences with React, Angular, and Vue. Mastering version control with Git.</span>
-            </li>
-            <li className='item'>
-                <h2>Back-End</h2>
-                <span>Powering the web with Python, Ruby, PHP, Java, and .NET. Crafting server magic with Flask, Ruby on Rails, Laravel, and Spring. Navigating data oceans with MySQL, PostgreSQL, and more. Securing the digital realm with OAuth, SSL, and JWT.</span>
-            </li>
-            <li className='item'>
-                <h2>Project Management</h2>
-                <span>Leading teams with effective communication and risk management. Navigating time and budgets while allocating resources. Charting the course with Agile/Scrum methodologies and ensuring quality at every turn.</span>
-            </li>
-            <li className='item'>
-                <h2>Networking</h2>
-                <span>Designing robust network architectures. Mastering TCP/IP protocols and routing. Fortifying networks with security and firewalls. Troubleshooting and optimizing for peak performance. Automating and monitoring for reliability.</span>
-            </li>
-            <li className='item'>
-                <h2>Cybersecurity</h2>
-                <span>Unraveling the secrets of threat intelligence. Leading incident response and SIEM efforts. Protecting data with cryptography and encryption. Building secure software and assessing risks. Managing identities and navigating the complex world of cybersecurity laws.</span>
-            </li>
-            <li className='item'>
-                <h2>Business Analysis</h2>
-                <span>Gathering requirements and managing stakeholders. Modeling processes and analyzing data. Solving problems through effective documentation and project management. Guiding projects with Agile methodologies.</span>
-            </li>
-            <li className='item'>
-                <h2>Graphics Design</h2>
-                <span>Architecting visually stunning networks. Mastering TCP/IP networking and securing data. Managing networks with finesse and troubleshooting with precision.</span>
-            </li>
-            <li className='item'>
-                <h2>UI/UX Design</h2>
-                <span>Unearthing user insights through research. Crafting intuitive wireframes and prototypes. Designing visually captivating experiences with an eye for detail.</span>
-            </li>
-            <li className='item'>
-                <h2>Documents</h2>
-                <span>Defining service levels with SLAs. Crafting compelling RFPs. Specifying system and user requirements. Mapping technical details and orchestrating comprehensive testing. Documenting systems, processes, and recovery plans.</span>
-            </li><br/>
+            <div className="heroCtas">
+              <Link className="btnPrimary" to="/projects">
+                View Work <ArrowForward />
+              </Link>
+              <Link className="btnGhost" to="/experience">
+                Experience
+              </Link>
             </div>
 
+            <div className="socialRow">
+              <a
+                className="iconBtn"
+                href="https://www.linkedin.com/in/abiud-m-59430b17a/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+              >
+                <LinkedIn />
+              </a>
+              <a className="iconBtn" href="mailto:monyoro@proton.me" aria-label="Email">
+                <Email />
+              </a>
+              <a
+                className="iconBtn"
+                href="https://github.com/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+              >
+                <GitHub />
+              </a>
+            </div>
+
+            <div className="microNote">
+              Working across <b>core billing</b>, <b>fintech channels</b>, <b>smart metering</b>, and
+              <b> revenue assurance</b>—systems that handle <b>large‑scale transactions</b> and demand
+              strong governance.
+            </div>
+          </div>
+
+          <div className="heroRight">
+            <div className="profileCard">
+              <div className="avatar" aria-hidden="true">
+                <span>AM</span>
+              </div>
+              <div className="profileText">
+                <div className="name">Abiud Monyoro Mongare</div>
+                <div className="title">Enterprise Systems Analyst • Digital Transformation Lead</div>
+              </div>
+
+              <div className="statGrid">
+                <div className="stat">
+                  <div className="statTop">Focus</div>
+                  <div className="statVal">Revenue Systems</div>
+                </div>
+                <div className="stat">
+                  <div className="statTop">Strength</div>
+                  <div className="statVal">Production Stability</div>
+                </div>
+                <div className="stat">
+                  <div className="statTop">Delivery</div>
+                  <div className="statVal">PM + Tech Lead</div>
+                </div>
+                <div className="stat">
+                  <div className="statTop">Governance</div>
+                  <div className="statVal">CAB</div>
+                </div>
+              </div>
+
+              <div className="pillRow">
+                <span className="pill">Oracle SQL/PL/SQL</span>
+                <span className="pill">Java</span>
+                <span className="pill">APIs</span>
+                <span className="pill">Linux</span>
+                <span className="pill">Docker</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHeader">
+          <h2>Technical Competencies</h2>
+          <p>What I use to deliver and stabilize enterprise platforms.</p>
+        </div>
+
+        <div className="grid3">
+          <div className="glassCard">
+            <h3>Programming</h3>
+            <p>Oracle SQL, PL/SQL, Java, JavaScript, Python, Bash</p>
+          </div>
+          <div className="glassCard">
+            <h3>Backend & APIs</h3>
+            <p>REST APIs, Spring Boot, JWT/Auth, secure integrations, data validation</p>
+          </div>
+          <div className="glassCard">
+            <h3>Platforms</h3>
+            <p>Core Billing (InCMS), Smart Meter/AMI, Self‑Service, SMS Gateway</p>
+          </div>
+          <div className="glassCard">
+            <h3>Mobile Releases</h3>
+            <p>Google Play Console, Apple App Store, rollout strategy, compliance</p>
+          </div>
+          <div className="glassCard">
+            <h3>Ops & DevOps</h3>
+            <p>Linux (Rocky), Docker, Git, CI/CD support, production rollout readiness</p>
+          </div>
+          <div className="glassCard">
+            <h3>Governance</h3>
+            <p>CAB change vetting, risk analysis, audit controls, data protection</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHeader">
+          <h2>What I’m Known For</h2>
+          <p>Short, honest, and high-impact.</p>
+        </div>
+
+        <div className="grid2">
+          <div className="glassCard">
+            <h3>Enterprise delivery</h3>
+            <ul className="cleanList">
+              <li>Translate business needs → working solutions with measurable outcomes</li>
+              <li>Manage UAT with users, fix gaps fast, and ship safely</li>
+              <li>Own releases and stabilization, not just development</li>
+            </ul>
+          </div>
+          <div className="glassCard">
+            <h3>Training & leadership</h3>
+            <ul className="cleanList">
+              <li>Train users and colleagues on workflows, testing, and troubleshooting</li>
+              <li>Standardize runbooks and repeatable fixes for recurring incidents</li>
+              <li>Mentor teams on production-safe scripts and change discipline</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="ctaBar">
+          <div>
+            <div className="ctaTitle">Want a clean walkthrough of my work?</div>
+            <div className="ctaSub">Open Projects for case-study summaries and focus areas.</div>
+          </div>
+          <Link className="btnPrimary" to="/projects">
+            Open Projects <ArrowForward />
+          </Link>
+        </div>
+      </section>
     </div>
-  </div>)
+  );
 }
 
-export default Home
+export default Home;
