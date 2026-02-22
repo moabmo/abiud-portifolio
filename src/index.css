@@ -1,0 +1,19 @@
+
+/* === FORCE WIDE LAYOUT (override) === */
+:root{
+  --content: min(92vw, 1800px) !important;
+}
+
+.container,
+.wrap,
+.shell,
+.page,
+main,
+section{
+  max-width: min(92vw, 1800px) !important;
+}
+
+body{
+  overflow-x: hidden;
+}
+
